@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Data Model &mdash; Broker 0.5.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/spacelab/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Broker 0.5.0 documentation" href="index.html" />
+    <link rel="next" title="3. Communication" href="communication.html" />
+    <link rel="prev" title="1. Introduction" href="intro.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Broker</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="http://github.com/bro/broker">github</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html"> <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#arithmetic">2.1. Arithmetic</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#boolean">2.1.1. Boolean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#count">2.1.2. Count</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#integer">2.1.3. Integer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#real">2.1.4. Real</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#time">2.2. Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#string">2.3. String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#networking">2.4. Networking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#address">2.4.1. Address</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subnet">2.4.2. Subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#port">2.4.3. Port</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#containers">2.5. Containers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vector">2.5.1. Vector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set">2.5.2. Set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#table">2.5.3. Table</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="communication.html">3. Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="communication.html#endpoints">3.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="communication.html#blocking">3.1.1. Blocking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="communication.html#non-blocking">3.1.2. Non-Blocking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="communication.html#peering">3.2. Peering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_stores.html">4. Data Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_stores.html#types">4.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_stores.html#frontend">4.1.1. Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_stores.html#backend">4.1.2. Backend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_stores.html#operations">4.2. Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_stores.html#mutating">4.2.1. Mutating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_stores.html#inspection">4.2.2. Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">5. Architecture</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><div class="globaltoc">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#arithmetic">2.1. Arithmetic</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#boolean">2.1.1. Boolean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#count">2.1.2. Count</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#integer">2.1.3. Integer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#real">2.1.4. Real</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#time">2.2. Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#string">2.3. String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#networking">2.4. Networking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#address">2.4.1. Address</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subnet">2.4.2. Subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#port">2.4.3. Port</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#containers">2.5. Containers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vector">2.5.1. Vector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set">2.5.2. Set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#table">2.5.3. Table</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="communication.html">3. Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="communication.html#endpoints">3.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="communication.html#blocking">3.1.1. Blocking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="communication.html#non-blocking">3.1.2. Non-Blocking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="communication.html#peering">3.2. Peering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_stores.html">4. Data Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_stores.html#types">4.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_stores.html#frontend">4.1.1. Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_stores.html#backend">4.1.2. Backend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_stores.html#operations">4.2. Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_stores.html#mutating">4.2.1. Mutating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_stores.html#inspection">4.2.2. Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">5. Architecture</a></li>
+</ul>
+
+</div>
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
+  <div class="section" id="data-model">
+<span id="id1"></span><h1>2. Data Model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="arithmetic">
+<h2>2.1. Arithmetic<a class="headerlink" href="#arithmetic" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="boolean">
+<h3>2.1.1. Boolean<a class="headerlink" href="#boolean" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="count">
+<h3>2.1.2. Count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="integer">
+<h3>2.1.3. Integer<a class="headerlink" href="#integer" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="real">
+<h3>2.1.4. Real<a class="headerlink" href="#real" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="time">
+<h2>2.2. Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h2>
+<p>Broker offers two data types for expressing time: <code class="docutils literal"><span class="pre">time::duration</span></code> and
+<code class="docutils literal"><span class="pre">time::point</span></code>. A duration represents relative time span, whereas as a point
+an absolute point in time. Time durations have nanosecond granularity and time
+points. Instances of <code class="docutils literal"><span class="pre">time::point</span></code> are anchored at the UNIX epoch, January 1,
+1970. The function <code class="docutils literal"><span class="pre">time::now()</span></code> returns the current wallclock time as a
+<code class="docutils literal"><span class="pre">time::point</span></code>.</p>
+<p>Both types seemlessly interoperate with the C++ standard library time
+faciliates. In fact, they are instances of <code class="docutils literal"><span class="pre">std::chrono::duration</span></code> and
+<code class="docutils literal"><span class="pre">std::chrono::time_point</span></code>:</p>
+<div class="highlight-C++"><div class="highlight"><pre><span class="k">namespace</span> <span class="n">broker</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">time</span> <span class="p">{</span>
+
+<span class="k">using</span> <span class="n">clock</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">nano</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">point</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">time_point</span><span class="o">&lt;</span><span class="n">clock</span><span class="p">,</span> <span class="n">duration</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="n">point</span> <span class="nf">now</span><span class="p">();</span>
+
+<span class="p">}</span> <span class="c1">// namespace time</span>
+<span class="p">}</span> <span class="c1">// namespace broker</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="string">
+<h2>2.3. String<a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="networking">
+<h2>2.4. Networking<a class="headerlink" href="#networking" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="address">
+<h3>2.4.1. Address<a class="headerlink" href="#address" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="subnet">
+<h3>2.4.2. Subnet<a class="headerlink" href="#subnet" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="port">
+<h3>2.4.3. Port<a class="headerlink" href="#port" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="containers">
+<h2>2.5. Containers<a class="headerlink" href="#containers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vector">
+<h3>2.5.1. Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="set">
+<h3>2.5.2. Set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="table">
+<h3>2.5.3. Table<a class="headerlink" href="#table" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/data_model.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, The Bro Project.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
