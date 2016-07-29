@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Communication &mdash; Broker 0.5.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/spacelab/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Broker 0.5.0 documentation" href="index.html" />
+    <link rel="next" title="3. Data Model" href="data.html" />
+    <link rel="prev" title="1. Overview" href="overview.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Broker</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="http://github.com/bro/broker">github</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html"> <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#communication">1.1. Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-model">1.2. Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-stores">1.3. Data Stores</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#endpoints">2.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#receiving-data">2.1.1. Receiving Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sending-data">2.1.2. Sending Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#peerings">2.2. Peerings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#status-messages">2.3. Status Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">3. Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data.html#types">3.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data.html#none">3.1.1. None</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#arithmetic">3.1.2. Arithmetic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#time">3.1.3. Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#string">3.1.4. String</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#networking">3.1.5. Networking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#containers">3.1.6. Containers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data.html#interface">3.2. Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stores.html">4. Data Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#types">4.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#frontend">4.1.1. Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#backend">4.1.2. Backend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#operations">4.2. Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#construction">4.2.1. Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#modification">4.2.2. Modification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#retrieval">4.2.3. Retrieval</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><div class="globaltoc">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#communication">1.1. Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-model">1.2. Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-stores">1.3. Data Stores</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#endpoints">2.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#receiving-data">2.1.1. Receiving Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sending-data">2.1.2. Sending Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#peerings">2.2. Peerings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#status-messages">2.3. Status Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">3. Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data.html#types">3.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data.html#none">3.1.1. None</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#arithmetic">3.1.2. Arithmetic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#time">3.1.3. Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#string">3.1.4. String</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#networking">3.1.5. Networking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#containers">3.1.6. Containers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data.html#interface">3.2. Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stores.html">4. Data Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#types">4.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#frontend">4.1.1. Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#backend">4.1.2. Backend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#operations">4.2. Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#construction">4.2.1. Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#modification">4.2.2. Modification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#retrieval">4.2.3. Retrieval</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
+  <div class="section" id="communication">
+<span id="id1"></span><h1>2. Communication<a class="headerlink" href="#communication" title="Permalink to this headline">¶</a></h1>
+<p>Broker&#8217;s primary objective is to facilitate efficient communication through a
+publish/subscribe model. In this model, entities send data by publishing to a
+specific topic, and receive data by subscribing to a topic of interest. The
+asynchronous nature of publish/subscribe makes it a popular choice for loosely
+coupled, distributed systems.</p>
+<p>Broker is the successor of <a class="reference external" href="https://www.bro.org/sphinx/components/broccoli/broccoli-manual.html">Broccoli</a>, Bro&#8217;s
+client communications library. Broccoli enables arbitrary applications to
+communicate in Bro&#8217;s data model.</p>
+<div class="section" id="endpoints">
+<h2>2.1. Endpoints<a class="headerlink" href="#endpoints" title="Permalink to this headline">¶</a></h2>
+<p>Broker encapsulates its entire state in a <code class="docutils literal"><span class="pre">context</span></code> object. Multiple
+instances of a <code class="docutils literal"><span class="pre">context</span></code> can exist in the same process, but each <code class="docutils literal"><span class="pre">context</span></code>
+features a thread-pool and (configurable) scheduler, which determines the
+execution of Broker&#8217;s components. Using a single <code class="docutils literal"><span class="pre">context</span></code> per OS process
+guarantees the most efficient usage of available hardware resources.
+Nonetheless, multiple Broker applications can seamlessly operate when linked
+together, as there exists no global library state.</p>
+<p>A <code class="docutils literal"><span class="pre">context</span></code> can <em>spawn</em> <code class="docutils literal"><span class="pre">endpoint</span></code> instances, of which there exists a
+<em>blocking</em> and <em>non-blocking</em> variant. The two types differ in the way they
+manage their subscriptions and receive messages. Both variants have a
+<em>mailbox</em>, which is essentially a queue with its unprocessed messages. In the
+blocking case, the user manually extracts messages from the mailbox, whereas
+the Broker runtime dispatches messages asynchronously in the non-blocking case.</p>
+<p>Both endpoint variants can be mixed and matched, it is not necessary to commit
+to a particular type for all endpoints within a context.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Instances of type <code class="docutils literal"><span class="pre">endpoint</span></code> have reference semantics: that is, they behave
+like a reference in that it&#8217;s impossible to obtain an invalid one (unlike a
+null pointer). An <code class="docutils literal"><span class="pre">endpoint</span></code> can also be copied around cheaply, but is not
+thread-safe.</p>
+</div>
+<div class="section" id="receiving-data">
+<h3>2.1.1. Receiving Data<a class="headerlink" href="#receiving-data" title="Permalink to this headline">¶</a></h3>
+<p>Endpoints can receive data through an explicit call to <code class="docutils literal"><span class="pre">receive</span></code> (blocking
+API) or installing a callback invoked by the runtime (non-blocking API).</p>
+<div class="section" id="blocking">
+<h4>2.1.1.1. Blocking<a class="headerlink" href="#blocking" title="Permalink to this headline">¶</a></h4>
+<p>The blocking API exists for applications that primarily operate synchronously
+and/or ship their own event loop. Endpoints subscribe to various topics and
+call a <code class="docutils literal"><span class="pre">receive</span></code> function to block and wait for message:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">ep</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">ep</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span> <span class="c1">// block and wait until a message arrives</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">topic</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>There exists also an overload of <code class="docutils literal"><span class="pre">receive</span></code> that takes a callback, but is
+semantically otherwise equivalent:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// block and wait until a message arrives</span>
+<span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">(</span>
+  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">topic</span><span class="o">&amp;</span> <span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">data</span><span class="o">&amp;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">topic</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Because <code class="docutils literal"><span class="pre">receive</span></code> may block forever, blocking endpoints also expose a simple
+interface to their mailbox:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ep</span><span class="p">.</span><span class="n">mailbox</span><span class="p">().</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+  <span class="c1">// guaranteed to not block</span>
+  <span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Alternatively, the mailbox exposes a file descriptor that indicates
+&#8220;readiness,&#8221; i.e., whether a message sits in the mailbox and can be processed
+without blocking:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">mailbox</span><span class="p">().</span><span class="n">descriptor</span><span class="p">();</span>
+<span class="c1">// use descriptor in existing poll/select loop</span>
+<span class="o">::</span><span class="n">pollfd</span> <span class="n">p</span> <span class="o">=</span> <span class="p">{</span><span class="n">fd</span><span class="p">,</span> <span class="n">POLLIN</span><span class="p">,</span> <span class="p">{}};</span>
+<span class="k">auto</span> <span class="n">n</span> <span class="o">=</span> <span class="o">::</span><span class="n">poll</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">terminate</span><span class="p">();</span> <span class="c1">// poll failed</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="p">.</span><span class="n">revents</span> <span class="o">&amp;</span> <span class="n">POLLIN</span><span class="p">;)</span>
+  <span class="c1">// guaranteed to not block</span>
+  <span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="non-blocking">
+<h4>2.1.1.2. Non-Blocking<a class="headerlink" href="#non-blocking" title="Permalink to this headline">¶</a></h4>
+<p>If your application does not require the synchronous API, the non-blocking API
+offers an asynchronous alternative. Unlike the blocking API, non-blocking
+endpoints take a callback for each topic they subscribe to:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">ep</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">ep</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;/foo&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="k">const</span> <span class="n">topic</span><span class="o">&amp;</span> <span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">data</span><span class="o">&amp;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">t</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="n">ep</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;/bar&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="k">const</span> <span class="n">topic</span><span class="o">&amp;</span> <span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">data</span><span class="o">&amp;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">t</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>When a new message matching the subscription arrives, Broker dispatches it to
+the callback without blocking.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The function <code class="docutils literal"><span class="pre">subscribe</span></code> returns immediately. Capturing variable <em>by
+reference</em> introduces a dangling reference once the outer frame returns.
+Therefore, only capture locals <em>by value</em>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="sending-data">
+<h3>2.1.2. Sending Data<a class="headerlink" href="#sending-data" title="Permalink to this headline">¶</a></h3>
+<p>The API for sending data is the same for blocking and non-blocking endpoints.
+In Broker, a <em>message</em> is a <em>topic</em>-<em>data</em> pair. That is, endpoints <em>publish</em>
+data under a <em>topic</em> to send a message to all subscribers:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ep</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">);</span>
+<span class="n">ep</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">,</span> <span class="n">vector</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+<span class="n">ep</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// same as above, implicit conversion to vector</span>
+</pre></div>
+</div>
+<p>The one-argument version of <code class="docutils literal"><span class="pre">publish</span></code> takes as first argument a <code class="docutils literal"><span class="pre">topic</span></code> and
+<code class="docutils literal"><span class="pre">data</span></code> instance. The variadic version implicitly constructs a <code class="docutils literal"><span class="pre">vector</span></code> from
+the provided <code class="docutils literal"><span class="pre">data</span></code> instances.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Publishing a message can be no-op if there exists no subscriber. Because
+Broker has fire-and-forget messaging semantics, the runtime does not generate
+a notification if no subscribers exist.</p>
+</div>
+<p>See <a class="reference internal" href="data.html#data-model"><span class="std std-ref">Section 3</span></a> for a detailed discussion on how to construct various
+types of <code class="docutils literal"><span class="pre">data</span></code>.</p>
+</div>
+</div>
+<div class="section" id="peerings">
+<h2>2.2. Peerings<a class="headerlink" href="#peerings" title="Permalink to this headline">¶</a></h2>
+<p>In order to publish messages beyond the sending endpoint, an endpoint needs to
+peer with other endpoints. A peering is a bidirectional relationship between
+two endpoints. Peering endpoints exchange subscriptions and forward messages
+accordingly. This allows for creating flexible communication topologies that
+use topic-based message routing.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Broker currently does not support topologies with loops. This is purely a
+technical limitation and vanishes in the future.</p>
+</div>
+<p>An endpoint can either peer with a local or a remote endpoint:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">ep0</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">ep0</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">ep1</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">ep0</span><span class="p">.</span><span class="n">peer</span><span class="p">(</span><span class="n">ep1</span><span class="p">);</span> <span class="c1">// exchanges existing subscriptions</span>
+<span class="n">ep1</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">);</span> <span class="c1">// relays subscription to peers</span>
+</pre></div>
+</div>
+<p>The figure below shows the subscription before and after entering the peering
+relationship.</p>
+<img alt="_images/peering-1.png" class="align-center" src="_images/peering-1.png" />
+<p>Let&#8217;s consider a third endpoint joining, this time through a remote connection.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// Expose endpoint at an IP address and TCP port.</span>
+<span class="n">ep0</span><span class="p">.</span><span class="n">listen</span><span class="p">(</span><span class="mf">1.2.3.4</span><span class="p">,</span> <span class="mi">40000</span><span class="p">);</span>
+
+<span class="c1">// In a separate OS process, connect to it.</span>
+<span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">ep2</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">ep2</span><span class="p">.</span><span class="n">peer</span><span class="p">(</span><span class="mf">1.2.3.4</span><span class="p">,</span> <span class="mi">42000</span><span class="p">);</span> <span class="c1">// installs a remote peering</span>
+</pre></div>
+</div>
+<p>Thereafter, we have the following topology:</p>
+<img alt="_images/peering-2.png" class="align-center" src="_images/peering-2.png" />
+<p>Note that <code class="docutils literal"><span class="pre">ep2</span></code> does not know about <code class="docutils literal"><span class="pre">ep1</span></code> and forwards <code class="docutils literal"><span class="pre">data</span></code> for topic
+<code class="docutils literal"><span class="pre">foo</span></code> and <code class="docutils literal"><span class="pre">bar</span></code> via <code class="docutils literal"><span class="pre">ep0</span></code>. However, <code class="docutils literal"><span class="pre">ep2.publish(&quot;bar&quot;,</span> <span class="pre">42)</span></code> still
+forwards a message via <code class="docutils literal"><span class="pre">ep0</span></code> to <code class="docutils literal"><span class="pre">ep1</span></code>.</p>
+</div>
+<div class="section" id="status-messages">
+<h2>2.3. Status Messages<a class="headerlink" href="#status-messages" title="Permalink to this headline">¶</a></h2>
+<p>In an asynchronous and distributed system, failures become the norm rather than
+constitute an exception. Endpoints may crash or the network experience an
+outage. While Broker cannot prevent these events from happening, it can detect
+them. To this end, there exists a special <code class="docutils literal"><span class="pre">status</span></code> message, which endpoints
+can subscribe to in addition to regular data messages.</p>
+<p>For example, when a new peering relationship gets estalbished, both endpoints
+receive <code class="docutils literal"><span class="pre">peer_added</span></code> status message:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">ep0</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="k">auto</span> <span class="n">ep1</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">ep0</span><span class="p">.</span><span class="n">receive</span><span class="p">(</span>
+  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">status</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">BROKER_ASSERT</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">peer_added</span><span class="p">);</span> <span class="p">}</span>
+<span class="p">);</span>
+<span class="n">ep1</span><span class="p">.</span><span class="n">receive</span><span class="p">(</span>
+  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">status</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">BROKER_ASSERT</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">peer_added</span><span class="p">);</span> <span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>For blocking endpoints, status messages accumulate along with data messages. It
+is the user&#8217;s responsibility to extract status messages from the mailbox to
+prevent it from overflowing.</p>
+<p>For nonblocking endpoints, status message get ignored unless subscribing to
+them explicitly:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">ep</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">ep</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span>
+  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">status</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">log</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/comm.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, The Bro Project.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Search &mdash; Broker 0.5.0 documentation</title>
+    <title>1. Overview &mdash; Broker 0.5.0 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,23 +24,17 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/searchtools.js"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Broker 0.5.0 documentation" href="index.html" />
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
-  
+    <link rel="next" title="2. Communication" href="comm.html" />
+    <link rel="prev" title="Broker User Manual" href="index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-
 
   </head>
   <body role="document">
@@ -73,11 +67,11 @@
      href="index.html"> <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#communication">1.1. Communication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#data-model">1.2. Data Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#data-stores">1.3. Data Stores</a></li>
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#communication">1.1. Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-model">1.2. Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-stores">1.3. Data Stores</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="comm.html">2. Communication</a><ul>
@@ -130,6 +124,13 @@
 
           
             
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
           
         </div>
     </div>
@@ -139,11 +140,11 @@
   <div class="row">
       <div class="col-md-3">
         <div id="sidebar" class="bs-sidenav" role="complementary"><div class="globaltoc">
-  <ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#communication">1.1. Communication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#data-model">1.2. Data Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#data-stores">1.3. Data Stores</a></li>
+  <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#communication">1.1. Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-model">1.2. Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-stores">1.3. Data Stores</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="comm.html">2. Communication</a><ul>
@@ -190,35 +191,90 @@
       </div>
     <div class="col-md-9 content">
       
-  <h1 id="search-documentation">Search</h1>
-  <div id="fallback" class="admonition warning">
-  <script type="text/javascript">$('#fallback').hide();</script>
-  <p>
-    Please activate JavaScript to enable the search
-    functionality.
-  </p>
-  </div>
-  <p>
-    From here you can search these documents. Enter your search
-    words into the box below and click "search". Note that the search
-    function will automatically search for all of the words. Pages
-    containing fewer words won't appear in the result list.
-  </p>
+  <div class="section" id="overview">
+<span id="id1"></span><h1>1. Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>Broker</strong> library enables applications to communicate in <a class="reference external" href="https://bro.org">Bro</a>&#8216;s
+type-rich <a class="reference internal" href="data.html#data-model"><span class="std std-ref">data model</span></a> via publish/subscribe messaging.
+Moreover, Broker offers distributed <a class="reference internal" href="stores.html#data-stores"><span class="std std-ref">key-value stores</span></a> to
+facilitate unified data management and persistence.</p>
+<p>The figure below introduces the graphic terminology we use throughout this
+manual.</p>
+<div class="figure align-center">
+<img alt="_images/terminology.png" src="_images/terminology.png" />
+</div>
+<p>Moreover, all C++ code examples assume <code class="docutils literal"><span class="pre">using</span> <span class="pre">namespace</span> <span class="pre">broker</span></code> for
+conciseness.</p>
+<div class="section" id="communication">
+<h2>1.1. Communication<a class="headerlink" href="#communication" title="Permalink to this headline">¶</a></h2>
+<p>Broker structures an application in terms of <em>endpoints</em>, which represent data
+senders and receivers. Endpoints can peer with other endpoints to communicate
+with their neighbors. An endpoint can send a message to its peers by publishing
+data under a specific <em>topic</em>. If any endpoint holds a subscription to the
+topic, it will receive the corresponding data.</p>
+<p>Endpoints can efficiently communicate within the same OS process, as well as
+transparently communicate with endpoints in a different OS process or on a
+remote machine. For in-memory endpoints, sending a message boils down to
+passing a pointer. For remote communication, Broker serializes messages
+transparently. This allows for a variety of different communication patterns.
+The following figure illustrates an exemplary topology.</p>
+<div class="figure align-center">
+<img alt="_images/high-level-comm.png" src="_images/high-level-comm.png" />
+</div>
+<p>There exist two API flavors: a synchronous (blocking) and asynchronous
+(non-blocking) version. Internally, Broker operates entirely asynchronously by
+leveraging the <a class="reference external" href="http://www.actor-framework.org">C++ Actor Framework (CAF)</a>.
+Users can receive messages either by calling a blocking function call until the
+next message arrives, or by installing a callback for a specific topic.</p>
+<p>See <a class="reference internal" href="comm.html#communication"><span class="std std-ref">Section 2</span></a> for concrete usage examples.</p>
+</div>
+<div class="section" id="data-model">
+<h2>1.2. Data Model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h2>
+<p>Broker comes with a rich data model, since the library&#8217;s primary objective
+involves communication with <a class="reference external" href="https://bro.org">Bro</a> and related applications. The fundamental unit
+of communication is <code class="docutils literal"><span class="pre">data</span></code>, which can hold any of the following concrete
+types:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">none</span></code></li>
+<li><code class="docutils literal"><span class="pre">boolean</span></code></li>
+<li><code class="docutils literal"><span class="pre">count</span></code></li>
+<li><code class="docutils literal"><span class="pre">integer</span></code></li>
+<li><code class="docutils literal"><span class="pre">real</span></code></li>
+<li><code class="docutils literal"><span class="pre">time::duration</span></code></li>
+<li><code class="docutils literal"><span class="pre">time::point</span></code></li>
+<li><code class="docutils literal"><span class="pre">string</span></code></li>
+<li><code class="docutils literal"><span class="pre">address</span></code></li>
+<li><code class="docutils literal"><span class="pre">subnet</span></code></li>
+<li><code class="docutils literal"><span class="pre">port</span></code></li>
+<li><code class="docutils literal"><span class="pre">vector</span></code></li>
+<li><code class="docutils literal"><span class="pre">set</span></code></li>
+<li><code class="docutils literal"><span class="pre">table</span></code></li>
+</ul>
+<p><a class="reference internal" href="data.html#data-model"><span class="std std-ref">Section 3</span></a> discusses the various types and their API in depth.</p>
+</div>
+<div class="section" id="data-stores">
+<h2>1.3. Data Stores<a class="headerlink" href="#data-stores" title="Permalink to this headline">¶</a></h2>
+<p>Data stores complement endpoint communication with a distributed key-value
+abstraction operating in the full data model. One can attach one or more data
+stores to an endpoint. A data store has a <em>frontend</em>, which determines its
+behavior, and a <em>backend</em>, which represent the type of database for storing
+data. There exist two types of frontends: <em>master</em> and <em>clone</em>. A master is the
+authoritative source for the key-value store, whereas a clone represents a
+local cache. Only the master can perform mutating operations on the store,
+which it then pushes to all its clones over the existing peering communication
+channel. A clone has a full copy of the data for faster access, but sends any
+modifying operations to its master first. Only when the master propagates back
+the change, the result of the operation becomes visible at the clone. The
+figure below illustrates how one can deploy a master with several clones.</p>
+<div class="figure align-center">
+<img alt="_images/stores.png" src="_images/stores.png" />
+</div>
+<p>Each data store has a name that identifies the master. This name must be unique
+among the endpoint&#8217;s peers. The master can choose to keep its data in various
+backends: in-memory, <a class="reference external" href="https://www.sqlite.org">SQLite</a>, and <a class="reference external" href="http://rocksdb.org">RocksDB</a>.</p>
+<p><a class="reference internal" href="stores.html#data-stores"><span class="std std-ref">Section 4</span></a> illustrates how to use data stores in different settings.</p>
+</div>
+</div>
 
-  
-  <form class="form-inline" action="" method="get">
-    <div class="form-group">
-      <input type="text" class="form-control" name="q" value="" />
-    </div>
-    <input type="submit" class="btn btn-default" value="search" />
-    <span id="search-progress" style="padding-left: 10px"></span>
-  </form>  
-  
-  
-  
-  <div id="search-results">
-  
-  </div>
 
     </div>
       
@@ -231,6 +287,10 @@
       
         <br/>
         
+<div id="sourcelink">
+  <a href="_sources/overview.txt"
+     rel="nofollow">Source</a>
+</div>
       
     </p>
     <p>

@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Broker 0.5.0 documentation" href="#" />
-    <link rel="next" title="1. Introduction" href="intro.html" />
+    <link rel="next" title="1. Overview" href="overview.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -67,54 +67,49 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data_model.html">2. Data Model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#arithmetic">2.1. Arithmetic</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#boolean">2.1.1. Boolean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#count">2.1.2. Count</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#integer">2.1.3. Integer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#real">2.1.4. Real</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#communication">1.1. Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-model">1.2. Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-stores">1.3. Data Stores</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#time">2.2. Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#string">2.3. String</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#networking">2.4. Networking</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#address">2.4.1. Address</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#subnet">2.4.2. Subnet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#port">2.4.3. Port</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comm.html">2. Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#endpoints">2.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="comm.html#receiving-data">2.1.1. Receiving Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html#sending-data">2.1.2. Sending Data</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#containers">2.5. Containers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#vector">2.5.1. Vector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#set">2.5.2. Set</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#table">2.5.3. Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#peerings">2.2. Peerings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#status-messages">2.3. Status Messages</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">3. Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data.html#types">3.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data.html#none">3.1.1. None</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#arithmetic">3.1.2. Arithmetic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#time">3.1.3. Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#string">3.1.4. String</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#networking">3.1.5. Networking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#containers">3.1.6. Containers</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="communication.html">3. Communication</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="communication.html#endpoints">3.1. Endpoints</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="communication.html#blocking">3.1.1. Blocking</a></li>
-<li class="toctree-l3"><a class="reference internal" href="communication.html#non-blocking">3.1.2. Non-Blocking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data.html#interface">3.2. Interface</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="communication.html#peering">3.2. Peering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stores.html">4. Data Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#aspects">4.1. Aspects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#frontend">4.1.1. Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#backend">4.1.2. Backend</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="data_stores.html">4. Data Stores</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="data_stores.html#types">4.1. Types</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_stores.html#frontend">4.1.1. Frontend</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_stores.html#backend">4.1.2. Backend</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="data_stores.html#operations">4.2. Operations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_stores.html#mutating">4.2.1. Mutating</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_stores.html#inspection">4.2.2. Inspection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#operations">4.2. Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#construction">4.2.1. Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#modification">4.2.2. Modification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#retrieval">4.2.3. Retrieval</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">5. Architecture</a></li>
 </ul>
 </ul>
 </li>
@@ -145,54 +140,49 @@
       <div class="col-md-3">
         <div id="sidebar" class="bs-sidenav" role="complementary"><div class="globaltoc">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data_model.html">2. Data Model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#arithmetic">2.1. Arithmetic</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#boolean">2.1.1. Boolean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#count">2.1.2. Count</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#integer">2.1.3. Integer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#real">2.1.4. Real</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#communication">1.1. Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-model">1.2. Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-stores">1.3. Data Stores</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#time">2.2. Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#string">2.3. String</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#networking">2.4. Networking</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#address">2.4.1. Address</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#subnet">2.4.2. Subnet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#port">2.4.3. Port</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comm.html">2. Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#endpoints">2.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="comm.html#receiving-data">2.1.1. Receiving Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html#sending-data">2.1.2. Sending Data</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="data_model.html#containers">2.5. Containers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#vector">2.5.1. Vector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#set">2.5.2. Set</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_model.html#table">2.5.3. Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#peerings">2.2. Peerings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#status-messages">2.3. Status Messages</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">3. Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data.html#types">3.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data.html#none">3.1.1. None</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#arithmetic">3.1.2. Arithmetic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#time">3.1.3. Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#string">3.1.4. String</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#networking">3.1.5. Networking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#containers">3.1.6. Containers</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="communication.html">3. Communication</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="communication.html#endpoints">3.1. Endpoints</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="communication.html#blocking">3.1.1. Blocking</a></li>
-<li class="toctree-l3"><a class="reference internal" href="communication.html#non-blocking">3.1.2. Non-Blocking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data.html#interface">3.2. Interface</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="communication.html#peering">3.2. Peering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stores.html">4. Data Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#aspects">4.1. Aspects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#frontend">4.1.1. Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#backend">4.1.2. Backend</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="data_stores.html">4. Data Stores</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="data_stores.html#types">4.1. Types</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_stores.html#frontend">4.1.1. Frontend</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_stores.html#backend">4.1.2. Backend</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="data_stores.html#operations">4.2. Operations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_stores.html#mutating">4.2.1. Mutating</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_stores.html#inspection">4.2.2. Inspection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#operations">4.2. Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#construction">4.2.1. Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#modification">4.2.2. Modification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#retrieval">4.2.3. Retrieval</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">5. Architecture</a></li>
 </ul>
 
 </div>
@@ -206,23 +196,21 @@
 <a class="reference external" href="https://bro.org">Bro</a>&#8216;s data model.</p>
 <div class="section" id="outline">
 <h2>Outline<a class="headerlink" href="#outline" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="intro.html#introduction"><span class="std std-ref">Section 1</span></a> introduces Broker&#8217;s key components and basic terminology,
+<p><a class="reference internal" href="overview.html#overview"><span class="std std-ref">Section 1</span></a> introduces Broker&#8217;s key components and basic terminology,
 such as <em>contexts</em>, <em>endpoints</em>, <em>messages</em>, <em>topics</em>, and <em>data stores</em>.</p>
-<p><a class="reference internal" href="data_model.html#data-model"><span class="std std-ref">Section 2</span></a> presents Broker&#8217;s data model which applications can pack into
-messages und publish under a given topic. The same data also works with
-Broker&#8217;s <a class="reference internal" href="data_stores.html#data-stores"><span class="std std-ref">data stores</span></a>.</p>
-<p><a class="reference internal" href="communication.html#communication"><span class="std std-ref">Section 3</span></a> shows how one can send and receive data with Broker&#8217;s
+<p><a class="reference internal" href="comm.html#communication"><span class="std std-ref">Section 2</span></a> shows how one can send and receive data with Broker&#8217;s
 publish/subscribe communication primitives. By structuring applications in
 independent <em>endpoints</em> and peering with other endpoints, one can create a
 variety of different communication topologies that perform topic-based message
 routing.</p>
-<p><a class="reference internal" href="data_stores.html#data-stores"><span class="std std-ref">Section 4</span></a> introduces <em>data stores</em>, a distributed key-value
-abstraction operating with the complete <a class="reference internal" href="data_model.html#data-model"><span class="std std-ref">data model</span></a>, for
+<p><a class="reference internal" href="data.html#data-model"><span class="std std-ref">Section 3</span></a> presents Broker&#8217;s data model which applications can pack into
+messages und publish under a given topic. The same data also works with
+Broker&#8217;s <a class="reference internal" href="stores.html#data-stores"><span class="std std-ref">data stores</span></a>.</p>
+<p><a class="reference internal" href="stores.html#data-stores"><span class="std std-ref">Section 4</span></a> introduces <em>data stores</em>, a distributed key-value
+abstraction operating with the complete <a class="reference internal" href="data.html#data-model"><span class="std std-ref">data model</span></a>, for
 both keys and values. Users interact with a data store <em>frontend</em>, which is
 either an authoritative <em>master</em> or a <em>clone</em> replica. The master can choose to
 keep its data in various <em>backends</em>: in-memory, <a class="reference external" href="https://www.sqlite.org">SQLite</a>, and <a class="reference external" href="http://rocksdb.org">RocksDB</a>.</p>
-<p>Finally, <a class="reference internal" href="architecture.html#architecture"><span class="std std-ref">Section 5</span></a> takes a deeper look at how Broker works
-internally.</p>
 </div>
 <div class="section" id="synopsis">
 <h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
@@ -244,7 +232,7 @@ internally.</p>
     <span class="n">process</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
   <span class="p">},</span>
   <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="k">const</span> <span class="n">error</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">e</span> <span class="o">=</span> <span class="n">ec</span><span class="o">::</span><span class="n">key_not_found</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">e</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">key_not_found</span><span class="p">)</span>
       <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;no such key: 4.2&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
     <span class="k">else</span>
       <span class="n">std</span><span class="o">::</span><span class="n">terminate</span><span class="p">();</span>

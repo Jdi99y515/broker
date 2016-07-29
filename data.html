@@ -1,141 +1,239 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Data Model &mdash; Broker 0.5.0 documentation</title>
-  
 
-  
-  
 
-  
-
-  
-  
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-
-  
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="Broker 0.5.0 documentation" href="index.html"/>
-        <link rel="next" title="Data Stores" href="stores.html"/>
-        <link rel="prev" title="Introduction" href="intro.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-  <div class="wy-grid-for-nav">
-
+    <title>3. Data Model &mdash; Broker 0.5.0 documentation</title>
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/spacelab/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Broker 0.5.0 documentation" href="index.html" />
+    <link rel="next" title="4. Data Stores" href="stores.html" />
+    <link rel="prev" title="2. Communication" href="comm.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-          
-            <a href="index.html" class="icon icon-home"> Broker
-          
+  </head>
+  <body role="document">
 
-          
-          </a>
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Broker</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5.0</b></span>
+      </div>
 
-          
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="http://github.com/bro/broker">github</a></li>
             
             
-              <div class="version">
-                0.5.0
-              </div>
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-                <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#time">Time</a></li>
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html"> <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#communication">1.1. Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-model">1.2. Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-stores">1.3. Data Stores</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="stores.html">Data Stores</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comm.html">2. Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#endpoints">2.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="comm.html#receiving-data">2.1.1. Receiving Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html#sending-data">2.1.2. Sending Data</a></li>
 </ul>
-
+</li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#peerings">2.2. Peerings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#status-messages">2.3. Status Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#types">3.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#none">3.1.1. None</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arithmetic">3.1.2. Arithmetic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time">3.1.3. Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#string">3.1.4. String</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#networking">3.1.5. Networking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#containers">3.1.6. Containers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interface">3.2. Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stores.html">4. Data Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#aspects">4.1. Aspects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#frontend">4.1.1. Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#backend">4.1.2. Backend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#operations">4.2. Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#construction">4.2.1. Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#modification">4.2.2. Modification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#retrieval">4.2.3. Retrieval</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
             
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
           
         </div>
-      </div>
-    </nav>
+    </div>
+  </div>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><div class="globaltoc">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#communication">1.1. Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-model">1.2. Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#data-stores">1.3. Data Stores</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="comm.html">2. Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#endpoints">2.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="comm.html#receiving-data">2.1.1. Receiving Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html#sending-data">2.1.2. Sending Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#peerings">2.2. Peerings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#status-messages">2.3. Status Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#types">3.1. Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#none">3.1.1. None</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arithmetic">3.1.2. Arithmetic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time">3.1.3. Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#string">3.1.4. String</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#networking">3.1.5. Networking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#containers">3.1.6. Containers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interface">3.2. Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stores.html">4. Data Stores</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#aspects">4.1. Aspects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#frontend">4.1.1. Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#backend">4.1.2. Backend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stores.html#operations">4.2. Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#construction">4.2.1. Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#modification">4.2.2. Modification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stores.html#retrieval">4.2.3. Retrieval</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Broker</a>
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
- 
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Data Model</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          
-            <a href="_sources/data.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-  </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
   <div class="section" id="data-model">
-<h1>Data Model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>3. Data Model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h1>
+<p>Broker offers a data model that is rich in types, closely modeled after <a class="reference external" href="https://www.bro.org">Bro</a>. Both <a class="reference internal" href="comm.html#communication"><span class="std std-ref">endpoints</span></a> and <a class="reference internal" href="stores.html#data-stores"><span class="std std-ref">data
+stores</span></a> operate with the <code class="docutils literal"><span class="pre">data</span></code> abstraction as basic building
+block, which is a type-erased variant structure that can hold many different
+values.</p>
+<p>There exists a total ordering on <code class="docutils literal"><span class="pre">data</span></code>, induced first by the type
+discriminator and then its value domain. For a example, an <code class="docutils literal"><span class="pre">integer</span></code> will
+always be smaller than a <code class="docutils literal"><span class="pre">count</span></code>. Only when comparing two values of the same
+type, a meaningful ordering exists. The total ordering makes it possible to use
+<code class="docutils literal"><span class="pre">data</span></code> as index in associative containers.</p>
+<div class="section" id="types">
+<h2>3.1. Types<a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="none">
+<h3>3.1.1. None<a class="headerlink" href="#none" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">none</span></code> type has exactly one value: <code class="docutils literal"><span class="pre">nil</span></code>. A default-construct instance
+of <code class="docutils literal"><span class="pre">data</span></code> is of type <code class="docutils literal"><span class="pre">none</span></code>. One can use this value to represent optional
+or invalid data.</p>
+</div>
+<div class="section" id="arithmetic">
+<h3>3.1.2. Arithmetic<a class="headerlink" href="#arithmetic" title="Permalink to this headline">¶</a></h3>
+<p>The following types have arithmetic behavior.</p>
+<div class="section" id="boolean">
+<h4>3.1.2.1. Boolean<a class="headerlink" href="#boolean" title="Permalink to this headline">¶</a></h4>
+<p>The type <code class="docutils literal"><span class="pre">boolean</span></code> can take on exactly two values: <code class="docutils literal"><span class="pre">true</span></code> and <code class="docutils literal"><span class="pre">false</span></code>.
+A <code class="docutils literal"><span class="pre">boolean</span></code> is a type alias for <code class="docutils literal"><span class="pre">bool</span></code>.</p>
+</div>
+<div class="section" id="count">
+<h4>3.1.2.2. Count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">count</span></code> is a 64-bit <em>unsigned</em> integer and type alias for <code class="docutils literal"><span class="pre">uint64_t</span></code>.</p>
+</div>
+<div class="section" id="integer">
+<h4>3.1.2.3. Integer<a class="headerlink" href="#integer" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">integer</span></code> is a 64-bit <em>signed</em> integer and type alias for <code class="docutils literal"><span class="pre">int64_t</span></code>.</p>
+</div>
+<div class="section" id="real">
+<h4>3.1.2.4. Real<a class="headerlink" href="#real" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">real</span></code> is a IEEE 754 double-precision floating point value, also commonly
+known as <code class="docutils literal"><span class="pre">double</span></code>.</p>
+</div>
+</div>
 <div class="section" id="time">
-<h2>Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h2>
+<h3>3.1.3. Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h3>
 <p>Broker offers two data types for expressing time: <code class="docutils literal"><span class="pre">time::duration</span></code> and
 <code class="docutils literal"><span class="pre">time::point</span></code>. A duration represents relative time span, whereas as a point
 an absolute point in time. Time durations have nanosecond granularity and time
@@ -159,74 +257,124 @@ faciliates. In fact, they are instances of <code class="docutils literal"><span 
 </pre></div>
 </div>
 </div>
+<div class="section" id="string">
+<h3>3.1.4. String<a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h3>
+<p>Broker directly supports <a class="reference external" href="http://en.cppreference.com/w/cpp/string/basic_string"><code class="docutils literal"><span class="pre">std::string</span></code></a> as one possible type of <code class="docutils literal"><span class="pre">data</span></code>.</p>
+</div>
+<div class="section" id="networking">
+<h3>3.1.5. Networking<a class="headerlink" href="#networking" title="Permalink to this headline">¶</a></h3>
+<p>Broker comes with a few custom types from the networking domain.</p>
+<div class="section" id="address">
+<h4>3.1.5.1. Address<a class="headerlink" href="#address" title="Permalink to this headline">¶</a></h4>
+<p>The type <code class="docutils literal"><span class="pre">address</span></code> is an IP address, which holds either an IPv4 or IPv6
+address. One can construct an address from a byte sequence, along with
+specifying the byte order and address family. An <code class="docutils literal"><span class="pre">address</span></code> can be masked by
+zeroing a given number of bottom bits.</p>
+</div>
+<div class="section" id="subnet">
+<h4>3.1.5.2. Subnet<a class="headerlink" href="#subnet" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">subnet</span></code> represents an IP prefix in <a class="reference external" href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">CIDR notation</a>.
+It consists of two components: a network address and a prefix length.</p>
+</div>
+<div class="section" id="port">
+<h4>3.1.5.3. Port<a class="headerlink" href="#port" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">port</span></code> represents a transport-level port number. Besides TCP and UDP ports,
+there is a concept of an ICMP &#8220;port&#8221; where the source port is the ICMP message
+type and the destination port the ICMP message code.</p>
+</div>
+</div>
+<div class="section" id="containers">
+<h3>3.1.6. Containers<a class="headerlink" href="#containers" title="Permalink to this headline">¶</a></h3>
+<p>Broker features the following container types: <code class="docutils literal"><span class="pre">vector</span></code>, <code class="docutils literal"><span class="pre">set</span></code>, and
+<code class="docutils literal"><span class="pre">table</span></code>.</p>
+<div class="section" id="vector">
+<h4>3.1.6.1. Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">vector</span></code> is a sequence of <code class="docutils literal"><span class="pre">data</span></code>.</p>
+<p>It is a type alias for <code class="docutils literal"><span class="pre">std::vector&lt;data&gt;</span></code>.</p>
+</div>
+<div class="section" id="set">
+<h4>3.1.6.2. Set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">set</span></code> is a mathemtical set with elements of type <code class="docutils literal"><span class="pre">data</span></code>. A fixed <code class="docutils literal"><span class="pre">data</span></code>
+value can occur at most once in a <code class="docutils literal"><span class="pre">set</span></code>.</p>
+<p>It is a type alias for <code class="docutils literal"><span class="pre">std::set&lt;data&gt;</span></code>.</p>
+</div>
+<div class="section" id="table">
+<h4>3.1.6.3. Table<a class="headerlink" href="#table" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">set</span></code> is associative array with keys and values of typ <code class="docutils literal"><span class="pre">data</span></code>. That is,
+it maps <code class="docutils literal"><span class="pre">data</span></code> to <code class="docutils literal"><span class="pre">data</span></code>.</p>
+<p>It is a type alias for <code class="docutils literal"><span class="pre">std::map&lt;data,</span> <span class="pre">data&gt;</span></code>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="interface">
+<h2>3.2. Interface<a class="headerlink" href="#interface" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">data</span></code> abstraction offers two ways of interacting with the contained type
+instance:</p>
+<ol class="arabic">
+<li><p class="first">Querying a specific type <code class="docutils literal"><span class="pre">T</span></code>. The function <code class="docutils literal"><span class="pre">data::get&lt;T&gt;</span></code> returns either
+a <code class="docutils literal"><span class="pre">T*</span></code> if the contained type is <code class="docutils literal"><span class="pre">T</span></code> and <code class="docutils literal"><span class="pre">nullptr</span></code> otherwise:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">{...};</span>
+<span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span><span class="p">())</span>
+  <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">);</span> <span class="c1">// safe use of x</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Applying a <em>visitor</em>. Since <code class="docutils literal"><span class="pre">data</span></code> is a variant type, one can apply a
+visitor to it, i.e., dispatch a function call based on the type discrimantor
+to the active type. A visitor is a polymorphic function object with
+overloaded <code class="docutils literal"><span class="pre">operator()</span></code> and a <code class="docutils literal"><span class="pre">result_type</span></code> type alias:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">visitor</span> <span class="p">{</span>
+  <span class="k">using</span> <span class="n">result_type</span> <span class="o">=</span> <span class="kt">void</span><span class="p">;</span>
+
+  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+  <span class="n">result_type</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;:-(&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">result_type</span> <span class="k">operator</span><span class="p">()(</span><span class="n">real</span> <span class="n">r</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">result_type</span> <span class="k">operator</span><span class="p">()(</span><span class="n">integer</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">{</span><span class="mi">42</span><span class="p">};</span>
+<span class="n">visit</span><span class="p">(</span><span class="n">visitor</span><span class="p">{},</span> <span class="n">x</span><span class="p">);</span> <span class="c1">// prints 42</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mf">4.2</span><span class="p">;</span>
+<span class="n">visit</span><span class="p">(</span><span class="n">visitor</span><span class="p">{},</span> <span class="n">x</span><span class="p">);</span> <span class="c1">// prints 4.2</span>
+<span class="n">x</span> <span class="o">=</span> <span class="s">&quot;42&quot;</span><span class="p">;</span>
+<span class="n">visit</span><span class="p">(</span><span class="n">visitor</span><span class="p">{},</span> <span class="n">x</span><span class="p">);</span> <span class="c1">// prints :-(</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
 </div>
 
 
-           </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="stores.html" class="btn btn-neutral float-right" title="Data Stores" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="intro.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
     </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/data.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
     <p>
-        &copy; Copyright 2016, The Bro Project.
-
+        &copy; Copyright 2016, The Bro Project.<br/>
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
 </footer>
-
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-  
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
-
-</body>
+  </body>
 </html>
