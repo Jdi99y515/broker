@@ -234,27 +234,34 @@ known as <code class="docutils literal"><span class="pre">double</span></code>.<
 </div>
 <div class="section" id="time">
 <h3>3.1.3. Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h3>
-<p>Broker offers two data types for expressing time: <code class="docutils literal"><span class="pre">time::duration</span></code> and
-<code class="docutils literal"><span class="pre">time::point</span></code>. A duration represents relative time span, whereas as a point
-an absolute point in time. Time durations have nanosecond granularity and time
-points. Instances of <code class="docutils literal"><span class="pre">time::point</span></code> are anchored at the UNIX epoch, January 1,
-1970. The function <code class="docutils literal"><span class="pre">time::now()</span></code> returns the current wallclock time as a
-<code class="docutils literal"><span class="pre">time::point</span></code>.</p>
+<p>Broker offers two data types for expressing time: <code class="docutils literal"><span class="pre">interval</span></code> and
+<code class="docutils literal"><span class="pre">timestamp</span></code>.</p>
 <p>Both types seemlessly interoperate with the C++ standard library time
-faciliates. In fact, they are instances of <code class="docutils literal"><span class="pre">std::chrono::duration</span></code> and
-<code class="docutils literal"><span class="pre">std::chrono::time_point</span></code>:</p>
-<div class="highlight-C++"><div class="highlight"><pre><span class="k">namespace</span> <span class="n">broker</span> <span class="p">{</span>
-<span class="k">namespace</span> <span class="n">time</span> <span class="p">{</span>
+faciliates. In fact, they are concrete specializations of the time types in
+<a class="reference external" href="http://en.cppreference.com/w/cpp/chrono"><code class="docutils literal"><span class="pre">std::chrono</span></code></a>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">namespace</span> <span class="n">broker</span> <span class="p">{</span>
 
 <span class="k">using</span> <span class="n">clock</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">nano</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">point</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">time_point</span><span class="o">&lt;</span><span class="n">clock</span><span class="p">,</span> <span class="n">duration</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">interval</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">nano</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">time_point</span><span class="o">&lt;</span><span class="n">clock</span><span class="p">,</span> <span class="n">duration</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="n">point</span> <span class="nf">now</span><span class="p">();</span>
+<span class="n">timestamp</span> <span class="nf">now</span><span class="p">();</span>
 
-<span class="p">}</span> <span class="c1">// namespace time</span>
 <span class="p">}</span> <span class="c1">// namespace broker</span>
 </pre></div>
+</div>
+<div class="section" id="interval">
+<h4>3.1.3.1. Interval<a class="headerlink" href="#interval" title="Permalink to this headline">¶</a></h4>
+<p>An <code class="docutils literal"><span class="pre">interval</span></code> represents relative time duration in nanoseconds. Given that
+the internal reprsentation is a 64-bit signed integer, this allows for
+representing approximately 292 years.</p>
+</div>
+<div class="section" id="timestamp">
+<h4>3.1.3.2. Timestamp<a class="headerlink" href="#timestamp" title="Permalink to this headline">¶</a></h4>
+<p>A <code class="docutils literal"><span class="pre">timestamp</span></code> represents an absolute point in time. The frame of reference
+for a <code class="docutils literal"><span class="pre">timestamp</span></code> is the UNIX epoch, January 1, 1970. That is, a
+<code class="docutils literal"><span class="pre">timestamp</span></code> is simply an anchored <code class="docutils literal"><span class="pre">interval</span></code>. The function <code class="docutils literal"><span class="pre">now()</span></code>
+returns the current wallclock time as a <code class="docutils literal"><span class="pre">timestamp</span></code>.</p>
 </div>
 </div>
 <div class="section" id="string">
