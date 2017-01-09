@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2. Communication &mdash; Broker User Manual</title>
+    <title>2. Communication &#8212; Broker User Manual</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -19,7 +19,8 @@
         VERSION:     '0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -29,7 +30,8 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Broker User Manual" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. Data Model" href="data.html" />
     <link rel="prev" title="1. Overview" href="overview.html" />
 <meta charset='utf-8'>
@@ -103,7 +105,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#peerings">2.2. Peerings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#status-messages">2.3. Status Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#status-and-error-handling">2.3. Status and Error Handling</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">3. Data Model</a><ul>
@@ -183,53 +185,51 @@ API) or installing a callback invoked by the runtime (non-blocking API).</p>
 <p>The blocking API exists for applications that primarily operate synchronously
 and/or ship their own event loop. Endpoints subscribe to various topics and
 call a <code class="docutils literal"><span class="pre">receive</span></code> function to block and wait for message:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">ep</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">();</span>
 <span class="n">ep</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
 <span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span> <span class="c1">// block and wait until a message arrives</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">topic</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">topic</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="k">else</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">to_string</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">status</span><span class="p">())</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>There exists also an overload of <code class="docutils literal"><span class="pre">receive</span></code> that takes a callback, but is
-semantically otherwise equivalent:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// block and wait until a message arrives</span>
-<span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">(</span>
-  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">topic</span><span class="o">&amp;</span> <span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">data</span><span class="o">&amp;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">topic</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">);</span>
-</pre></div>
-</div>
-<p>Because <code class="docutils literal"><span class="pre">receive</span></code> may block forever, blocking endpoints also expose a simple
-interface to their mailbox:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ep</span><span class="p">.</span><span class="n">mailbox</span><span class="p">().</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-  <span class="c1">// guaranteed to not block</span>
-  <span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span>
+<p>The function <code class="docutils literal"><span class="pre">receive</span></code> blocks until the endpoint receives a <code class="docutils literal"><span class="pre">message</span></code>,
+which is either a (<code class="docutils literal"><span class="pre">topic</span></code>, <code class="docutils literal"><span class="pre">data</span></code>) pair or a <code class="docutils literal"><span class="pre">status</span></code> to signal an error
+or a status change of the endpoint topology. More on <code class="docutils literal"><span class="pre">status</span></code>
+handling in <a class="reference internal" href="#status-handling"><span class="std std-ref">Section 2.3</span></a>.</p>
+<p>Blocking indefinitely does not work well in combination with existing event
+loops or polling. Therefore, blocking endpoints offer an additional <code class="docutils literal"><span class="pre">mailbox</span></code>
+API:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="c1">// Manual polling.</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ep</span><span class="p">.</span><span class="n">mailbox</span><span class="p">().</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span> <span class="c1">// guaranteed to not block</span>
   <span class="p">...</span>
 <span class="p">}</span>
-</pre></div>
-</div>
-<p>Alternatively, the mailbox exposes a file descriptor that indicates
-&#8220;readiness,&#8221; i.e., whether a message sits in the mailbox and can be processed
-without blocking:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">mailbox</span><span class="p">().</span><span class="n">descriptor</span><span class="p">();</span>
-<span class="c1">// use descriptor in existing poll/select loop</span>
+
+<span class="c1">// Introspection.</span>
+<span class="k">auto</span> <span class="n">n</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">mailbox</span><span class="p">().</span><span class="n">count</span><span class="p">();</span> <span class="c1">// O(n) due to internal queue implementation</span>
+
+<span class="c1">// Event loop integration.</span>
+<span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">mailbox</span><span class="p">().</span><span class="n">descriptor</span><span class="p">();</span>
 <span class="o">::</span><span class="n">pollfd</span> <span class="n">p</span> <span class="o">=</span> <span class="p">{</span><span class="n">fd</span><span class="p">,</span> <span class="n">POLLIN</span><span class="p">,</span> <span class="p">{}};</span>
 <span class="k">auto</span> <span class="n">n</span> <span class="o">=</span> <span class="o">::</span><span class="n">poll</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
   <span class="n">std</span><span class="o">::</span><span class="n">terminate</span><span class="p">();</span> <span class="c1">// poll failed</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="p">.</span><span class="n">revents</span> <span class="o">&amp;</span> <span class="n">POLLIN</span><span class="p">;)</span>
-  <span class="c1">// guaranteed to not block</span>
-  <span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="p">.</span><span class="n">revents</span> <span class="o">&amp;</span> <span class="n">POLLIN</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span> <span class="c1">// guaranteed to not block</span>
+  <span class="p">...</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="non-blocking">
 <h4>2.1.1.2. Non-Blocking<a class="headerlink" href="#non-blocking" title="Permalink to this headline">¶</a></h4>
-<p>If your application does not require the synchronous API, the non-blocking API
+<p>If your application does not require a blocking API, the non-blocking API
 offers an asynchronous alternative. Unlike the blocking API, non-blocking
 endpoints take a callback for each topic they subscribe to:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">ep</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">();</span>
 <span class="n">ep</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;/foo&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="k">const</span> <span class="n">topic</span><span class="o">&amp;</span> <span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">data</span><span class="o">&amp;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">t</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -254,7 +254,7 @@ Therefore, only capture locals <em>by value</em>.</p>
 <p>The API for sending data is the same for blocking and non-blocking endpoints.
 In Broker, a <em>message</em> is a <em>topic</em>-<em>data</em> pair. That is, endpoints <em>publish</em>
 data under a <em>topic</em> to send a message to all subscribers:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ep</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">);</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">ep</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">);</span>
 <span class="n">ep</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">,</span> <span class="n">vector</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
 <span class="n">ep</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// same as above, implicit conversion to vector</span>
 </pre></div>
@@ -285,7 +285,7 @@ use topic-based message routing.</p>
 technical limitation and vanishes in the future.</p>
 </div>
 <p>An endpoint can either peer with a local or a remote endpoint:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">ep0</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">();</span>
 <span class="n">ep0</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
 <span class="k">auto</span> <span class="n">ep1</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">();</span>
@@ -297,7 +297,7 @@ technical limitation and vanishes in the future.</p>
 relationship.</p>
 <img alt="_images/peering-1.png" class="align-center" src="_images/peering-1.png" />
 <p>Let&#8217;s consider a third endpoint joining, this time through a remote connection.</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// Expose endpoint at an IP address and TCP port.</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="c1">// Expose endpoint at an IP address and TCP port.</span>
 <span class="n">ep0</span><span class="p">.</span><span class="n">listen</span><span class="p">(</span><span class="mf">1.2.3.4</span><span class="p">,</span> <span class="mi">40000</span><span class="p">);</span>
 
 <span class="c1">// In a separate OS process, connect to it.</span>
@@ -312,35 +312,53 @@ relationship.</p>
 <code class="docutils literal"><span class="pre">foo</span></code> and <code class="docutils literal"><span class="pre">bar</span></code> via <code class="docutils literal"><span class="pre">ep0</span></code>. However, <code class="docutils literal"><span class="pre">ep2.publish(&quot;bar&quot;,</span> <span class="pre">42)</span></code> still
 forwards a message via <code class="docutils literal"><span class="pre">ep0</span></code> to <code class="docutils literal"><span class="pre">ep1</span></code>.</p>
 </div>
-<div class="section" id="status-messages">
-<h2>2.3. Status Messages<a class="headerlink" href="#status-messages" title="Permalink to this headline">¶</a></h2>
-<p>In an asynchronous and distributed system, failures become the norm rather than
-constitute an exception. Endpoints may crash or the network experience an
-outage. While Broker cannot prevent these events from happening, it can detect
-them. To this end, there exists a special <code class="docutils literal"><span class="pre">status</span></code> message, which endpoints
-can subscribe to in addition to regular data messages.</p>
+<div class="section" id="status-and-error-handling">
+<span id="status-handling"></span><h2>2.3. Status and Error Handling<a class="headerlink" href="#status-and-error-handling" title="Permalink to this headline">¶</a></h2>
+<p>In an distributed system, failures occur routinely. While Broker cannot prevent
+these events from happening, it presents to the user in the form of <code class="docutils literal"><span class="pre">status</span></code>
+messages. Blocking endpoints get them via <code class="docutils literal"><span class="pre">receive</span></code> and non-blocking
+endpoints much subscribe to them explicitly.</p>
 <p>For example, when a new peering relationship gets estalbished, both endpoints
 receive <code class="docutils literal"><span class="pre">peer_added</span></code> status message:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<span class="c1">// Peer two endpoints.</span>
 <span class="k">auto</span> <span class="n">ep0</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">();</span>
 <span class="k">auto</span> <span class="n">ep1</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">();</span>
-<span class="n">ep0</span><span class="p">.</span><span class="n">receive</span><span class="p">(</span>
-  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">status</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">BROKER_ASSERT</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">peer_added</span><span class="p">);</span> <span class="p">}</span>
-<span class="p">);</span>
-<span class="n">ep1</span><span class="p">.</span><span class="n">receive</span><span class="p">(</span>
-  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">status</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">BROKER_ASSERT</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">peer_added</span><span class="p">);</span> <span class="p">}</span>
-<span class="p">);</span>
+<span class="n">ep0</span><span class="p">.</span><span class="n">peer</span><span class="p">(</span><span class="n">ep1</span><span class="p">);</span>
+<span class="c1">// Block and wait for status messages.</span>
+<span class="k">auto</span> <span class="n">msg0</span> <span class="o">=</span> <span class="n">ep0</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span>
+<span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">msg0</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">msg0</span><span class="p">.</span><span class="n">status</span><span class="p">()</span> <span class="o">==</span> <span class="n">sc</span><span class="o">::</span><span class="n">peer_added</span><span class="p">)</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;peering established successfully&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>For blocking endpoints, status messages accumulate along with data messages. It
-is the user&#8217;s responsibility to extract status messages from the mailbox to
-prevent it from overflowing.</p>
+<p>An instance of type <code class="docutils literal"><span class="pre">status</span></code> is equality-comparable with one of the status
+codes of the <code class="docutils literal"><span class="pre">sc</span></code> enum. For example, <code class="docutils literal"><span class="pre">sc::peer_added</span></code> conveyes a successful
+peering.</p>
+<p>Status messages have an optional <em>context</em> and an optional descriptive
+<em>message</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">msg</span><span class="p">.</span><span class="n">status</span><span class="p">();</span>
+<span class="c1">// Check for textual description.</span>
+<span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">str</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">message</span><span class="p">())</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="c1">// Check for contextual information.</span>
+<span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">context</span><span class="o">&lt;</span><span class="n">endpoint_info</span><span class="o">&gt;</span><span class="p">())</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">network</span><span class="p">)</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;peer at: &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">network</span><span class="o">-&gt;</span><span class="n">address</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;:&#39;</span>
+              <span class="o">&lt;&lt;</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">network</span><span class="o">-&gt;</span><span class="n">port</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The member function <code class="docutils literal"><span class="pre">context&lt;T&gt;</span></code> returns a <code class="docutils literal"><span class="pre">const</span> <span class="pre">T*</span></code> if the context is
+available. The type of available context information is dependent on the status
+code enum <code class="docutils literal"><span class="pre">sc</span></code>. For example, all <code class="docutils literal"><span class="pre">sc::peer_</span></code> status codes have an
+<code class="docutils literal"><span class="pre">enpoint_info</span></code> context as well as a message.</p>
 <p>For nonblocking endpoints, status message get ignored unless subscribing to
 them explicitly:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">ep</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">();</span>
 <span class="n">ep</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span>
-  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">status</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">log</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">}</span>
+  <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">status</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -365,7 +383,7 @@ them explicitly:</p>
             <br/>
             
 <div id="sourcelink">
-  <a href="_sources/comm.txt"
+  <a href="_sources/comm.rst.txt"
      rel="nofollow">Source</a>
 </div>
           

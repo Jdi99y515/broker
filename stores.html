@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>4. Data Stores &mdash; Broker User Manual</title>
+    <title>4. Data Stores &#8212; Broker User Manual</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -19,7 +19,8 @@
         VERSION:     '0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -29,7 +30,8 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Broker User Manual" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="3. Data Model" href="data.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -102,7 +104,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="comm.html#peerings">2.2. Peerings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="comm.html#status-messages">2.3. Status Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#status-and-error-handling">2.3. Status and Error Handling</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">3. Data Model</a><ul>
@@ -198,7 +200,7 @@ mutating operations, and retrieving values at specific keys.</p>
 <h3>4.2.1. Construction<a class="headerlink" href="#construction" title="Permalink to this headline">¶</a></h3>
 <p>The example below illustrates how to attach a master frontend with a memory
 backend:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="n">ctx</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">ep</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">spawn</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">();</span>
 <span class="c1">// attach a master with memory backend</span>
 <span class="k">auto</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">ep</span><span class="p">.</span><span class="n">attach</span><span class="o">&lt;</span><span class="n">master</span><span class="p">,</span> <span class="n">memory</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
@@ -206,7 +208,7 @@ backend:</p>
 </pre></div>
 </div>
 <p>The factory function <code class="docutils literal"><span class="pre">endpoint::attach</span></code> has the following signature:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">attach</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span> <span class="n">B</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span> <span class="n">backend_options</span> <span class="n">opts</span> <span class="o">=</span> <span class="p">{})</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">attach</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span> <span class="n">B</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span> <span class="n">backend_options</span> <span class="n">opts</span> <span class="o">=</span> <span class="p">{})</span>
 </pre></div>
 </div>
 <p>The two template parameters <code class="docutils literal"><span class="pre">F</span></code> and <code class="docutils literal"><span class="pre">B</span></code> denote the respective frontend and
@@ -220,7 +222,7 @@ reference to the data store.</p>
 <p>The type <code class="docutils literal"><span class="pre">expected&lt;T&gt;</span></code> encapsulates an instance of type <code class="docutils literal"><span class="pre">T</span></code> or an
 <code class="docutils literal"><span class="pre">error</span></code>, with an interface that has &#8220;pointer semantics&#8221; for syntactic
 convenience:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">auto</span> <span class="n">f</span><span class="p">(...)</span> <span class="o">-&gt;</span> <span class="n">expected</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="nf">f</span><span class="p">(...)</span> <span class="o">-&gt;</span> <span class="n">expected</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
 
 <span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span><span class="p">();</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -239,13 +241,13 @@ can be compared against an error enumeration.</p>
 <ol class="arabic">
 <li><p class="first"><code class="docutils literal"><span class="pre">put(key,</span> <span class="pre">value)</span></code>: stores <code class="docutils literal"><span class="pre">value</span></code> at <code class="docutils literal"><span class="pre">key</span></code>, overwriting a potentially
 previously existing value at <code class="docutils literal"><span class="pre">key</span></code>.</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ds</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">set</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">set</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
 <span class="n">ds</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">);</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">erase(key)</span></code>: removes the value for the given key, if <code class="docutils literal"><span class="pre">key</span></code> exists</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ds</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>    <span class="c1">// removes set{1, 2, 3}, which got inserted above</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>    <span class="c1">// removes set{1, 2, 3}, which got inserted above</span>
 <span class="n">ds</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">);</span> <span class="c1">// nop: key does not exist</span>
 </pre></div>
 </div>
@@ -262,12 +264,12 @@ previously existing value at <code class="docutils literal"><span class="pre">ke
 or non-blocking fashion.</p>
 <p>The overload <code class="docutils literal"><span class="pre">get&lt;blocking&gt;(const</span> <span class="pre">data&amp;</span> <span class="pre">key)</span></code> retrieves a value in a blocking
 manner and returns an instance of <code class="docutils literal"><span class="pre">expected&lt;data&gt;</span></code>.</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ds</span><span class="o">-&gt;</span><span class="n">get</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ds</span><span class="o">-&gt;</span><span class="n">get</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// may print 4.2</span>
-<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">no_such_key</span><span class="p">)</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">no_such_key</span><span class="p">)</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;key &#39;foo&#39; does not exist&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">backend_failure</span><span class="p">)</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">backend_failure</span><span class="p">)</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;something went wrong with the backend&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="k">else</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;could not retrieve value at key &#39;foo&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -277,14 +279,14 @@ manner and returns an instance of <code class="docutils literal"><span class="pr
 object which has the sole purpose of invoking <code class="docutils literal"><span class="pre">.then(...)</span></code> on it to
 install a one-shot handler that the runtime executes as soon as the result of
 the retrieval operation is available.</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ds</span><span class="o">-&gt;</span><span class="n">get</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">).</span><span class="n">then</span><span class="p">(</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">-&gt;</span><span class="n">get</span><span class="o">&lt;</span><span class="n">nonblocking</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">).</span><span class="n">then</span><span class="p">(</span>
   <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="k">const</span> <span class="n">data</span><span class="o">&amp;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// may print 4.2</span>
   <span class="p">},</span>
   <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="k">const</span> <span class="n">error</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">no_such_key</span><span class="p">)</span>
       <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;key &#39;foo&#39; does not exist&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">backend_failure</span><span class="p">)</span>
+    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">backend_failure</span><span class="p">)</span>
       <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;something went wrong with the backend&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
     <span class="k">else</span>
       <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;could not retrieve value at key &#39;foo&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -309,7 +311,7 @@ the retrieval operation is available.</p>
             <br/>
             
 <div id="sourcelink">
-  <a href="_sources/stores.txt"
+  <a href="_sources/stores.rst.txt"
      rel="nofollow">Source</a>
 </div>
           

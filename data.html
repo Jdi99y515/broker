@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Data Model &mdash; Broker User Manual</title>
+    <title>3. Data Model &#8212; Broker User Manual</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -19,7 +19,8 @@
         VERSION:     '0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -29,7 +30,8 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Broker User Manual" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Data Stores" href="stores.html" />
     <link rel="prev" title="2. Communication" href="comm.html" />
 <meta charset='utf-8'>
@@ -103,7 +105,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="comm.html#peerings">2.2. Peerings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="comm.html#status-messages">2.3. Status Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#status-and-error-handling">2.3. Status and Error Handling</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. Data Model</a><ul>
@@ -188,7 +190,7 @@ known as <code class="docutils literal"><span class="pre">double</span></code>.<
 <p>Both types seemlessly interoperate with the C++ standard library time
 faciliates. In fact, they are concrete specializations of the time types in
 <a class="reference external" href="http://en.cppreference.com/w/cpp/chrono"><code class="docutils literal"><span class="pre">std::chrono</span></code></a>:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">namespace</span> <span class="n">broker</span> <span class="p">{</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">broker</span> <span class="p">{</span>
 
 <span class="k">using</span> <span class="n">clock</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="p">;</span>
 <span class="k">using</span> <span class="n">timespan</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">nano</span><span class="o">&gt;</span><span class="p">;</span>
@@ -269,7 +271,7 @@ instance:</p>
 <ol class="arabic">
 <li><p class="first">Querying a specific type <code class="docutils literal"><span class="pre">T</span></code>. The function <code class="docutils literal"><span class="pre">data::get&lt;T&gt;</span></code> returns either
 a <code class="docutils literal"><span class="pre">T*</span></code> if the contained type is <code class="docutils literal"><span class="pre">T</span></code> and <code class="docutils literal"><span class="pre">nullptr</span></code> otherwise:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">{...};</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">{...};</span>
 <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span><span class="p">())</span>
   <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">);</span> <span class="c1">// safe use of x</span>
 </pre></div>
@@ -279,7 +281,7 @@ a <code class="docutils literal"><span class="pre">T*</span></code> if the conta
 visitor to it, i.e., dispatch a function call based on the type discrimantor
 to the active type. A visitor is a polymorphic function object with
 overloaded <code class="docutils literal"><span class="pre">operator()</span></code> and a <code class="docutils literal"><span class="pre">result_type</span></code> type alias:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">visitor</span> <span class="p">{</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">visitor</span> <span class="p">{</span>
   <span class="k">using</span> <span class="n">result_type</span> <span class="o">=</span> <span class="kt">void</span><span class="p">;</span>
 
   <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
@@ -327,7 +329,7 @@ overloaded <code class="docutils literal"><span class="pre">operator()</span></c
             <br/>
             
 <div id="sourcelink">
-  <a href="_sources/data.txt"
+  <a href="_sources/data.rst.txt"
      rel="nofollow">Source</a>
 </div>
           
