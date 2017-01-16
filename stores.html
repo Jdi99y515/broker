@@ -104,7 +104,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="comm.html#peerings">2.2. Peerings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="comm.html#status-and-error-handling">2.3. Status and Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm.html#status-messages">2.3. Status Messages</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">3. Data Model</a><ul>
@@ -129,7 +129,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#operations">4.2. Operations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#construction">4.2.1. Construction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modification">4.2.2. Modification</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#retrieval">4.2.3. Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#direct-retrieval">4.2.3. Direct Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#proxy-retrieval">4.2.4. Proxy Retrieval</a></li>
 </ul>
 </li>
 </ul>
@@ -215,14 +216,14 @@ backend:</p>
 backend types, where <code class="docutils literal"><span class="pre">B</span></code> defaults to <code class="docutils literal"><span class="pre">memory</span></code>.  The function takes as first
 argument the name of the store and as second argument optionally a set of
 backend options, such as the path where to keep the backend on the filesystem.
-The function returns a <code class="docutils literal"><span class="pre">expected&lt;store&gt;</span></code> which encapsulates a type-erased
+The function returns a <code class="docutils literal"><span class="pre">result&lt;store&gt;</span></code> which encapsulates a type-erased
 reference to the data store.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>The type <code class="docutils literal"><span class="pre">expected&lt;T&gt;</span></code> encapsulates an instance of type <code class="docutils literal"><span class="pre">T</span></code> or an
-<code class="docutils literal"><span class="pre">error</span></code>, with an interface that has &#8220;pointer semantics&#8221; for syntactic
+<p>The type <code class="docutils literal"><span class="pre">result&lt;T&gt;</span></code> encapsulates an instance of type <code class="docutils literal"><span class="pre">T</span></code> or a
+<code class="docutils literal"><span class="pre">status</span></code>, with an interface that has &#8220;pointer semantics&#8221; for syntactic
 convenience:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="nf">f</span><span class="p">(...)</span> <span class="o">-&gt;</span> <span class="n">expected</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="nf">f</span><span class="p">(...)</span> <span class="o">-&gt;</span> <span class="n">result</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
 
 <span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">f</span><span class="p">();</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -231,8 +232,8 @@ convenience:</p>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">to_string</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">error</span><span class="p">())</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
-<p class="last">In the failure case, the <code class="docutils literal"><span class="pre">expected&lt;T&gt;::error()</span></code> holds an <code class="docutils literal"><span class="pre">error</span></code> that
-can be compared against an error enumeration.</p>
+<p class="last">In the failure case, the <code class="docutils literal"><span class="pre">result&lt;T&gt;::status()</span></code> holds a <code class="docutils literal"><span class="pre">status</span></code> that
+can be compared against the status code enumeration <code class="docutils literal"><span class="pre">sc</span></code>.</p>
 </div>
 </div>
 <div class="section" id="modification">
@@ -258,18 +259,18 @@ previously existing value at <code class="docutils literal"><span class="pre">ke
 <p class="last">TODO: Document type-specific <code class="docutils literal"><span class="pre">add</span></code> and <code class="docutils literal"><span class="pre">remove</span></code>.</p>
 </div>
 </div>
-<div class="section" id="retrieval">
-<h3>4.2.3. Retrieval<a class="headerlink" href="#retrieval" title="Permalink to this headline">¶</a></h3>
-<p>There exist two methods of extracting values from a store: either in a blocking
-or non-blocking fashion.</p>
+<div class="section" id="direct-retrieval">
+<h3>4.2.3. Direct Retrieval<a class="headerlink" href="#direct-retrieval" title="Permalink to this headline">¶</a></h3>
+<p>There exist two methods of directly extracting values from a store: either in a
+blocking or non-blocking fashion.</p>
 <p>The overload <code class="docutils literal"><span class="pre">get&lt;blocking&gt;(const</span> <span class="pre">data&amp;</span> <span class="pre">key)</span></code> retrieves a value in a blocking
-manner and returns an instance of <code class="docutils literal"><span class="pre">expected&lt;data&gt;</span></code>.</p>
+manner and returns an instance of <code class="docutils literal"><span class="pre">result&lt;data&gt;</span></code>.</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ds</span><span class="o">-&gt;</span><span class="n">get</span><span class="o">&lt;</span><span class="n">blocking</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// may print 4.2</span>
-<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">no_such_key</span><span class="p">)</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">sc</span><span class="o">::</span><span class="n">no_such_key</span><span class="p">)</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;key &#39;foo&#39; does not exist&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">backend_failure</span><span class="p">)</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">sc</span><span class="o">::</span><span class="n">backend_failure</span><span class="p">)</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;something went wrong with the backend&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="k">else</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;could not retrieve value at key &#39;foo&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -284,14 +285,44 @@ the retrieval operation is available.</p>
     <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// may print 4.2</span>
   <span class="p">},</span>
   <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="k">const</span> <span class="n">error</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">no_such_key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">sc</span><span class="o">::</span><span class="n">no_such_key</span><span class="p">)</span>
       <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;key &#39;foo&#39; does not exist&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ec</span><span class="o">::</span><span class="n">backend_failure</span><span class="p">)</span>
+    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">()</span> <span class="o">==</span> <span class="n">sc</span><span class="o">::</span><span class="n">backend_failure</span><span class="p">)</span>
       <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;something went wrong with the backend&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
     <span class="k">else</span>
       <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;could not retrieve value at key &#39;foo&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="proxy-retrieval">
+<h3>4.2.4. Proxy Retrieval<a class="headerlink" href="#proxy-retrieval" title="Permalink to this headline">¶</a></h3>
+<p>When integrating data store queries into an event loop, the direct retrieval
+API does not prove a good fit: there&#8217;s no descriptor that we can poll, and
+request and response are coupled at lookup time. Therefore, Broker offers a
+second mechanism to lookup values in data stores. A <code class="docutils literal"><span class="pre">store::proxy</span></code>
+decouples lookup requests from responses and exposes a mailbox to integrate
+into event loops&#8212;exactly like blocking endpoints. Each request has a unique,
+monotonically increasing 64-bit ID that is hauled through the response:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="c1">// Add a value to a data store (master or clone).</span>
+<span class="n">ds</span><span class="o">-&gt;</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">);</span>
+<span class="c1">// Create a proxy.</span>
+<span class="k">auto</span> <span class="n">proxy</span> <span class="o">=</span> <span class="n">store</span><span class="o">::</span><span class="n">proxy</span><span class="p">{</span><span class="o">*</span><span class="n">ds</span><span class="p">};</span>
+<span class="c1">// Perform an asynchyronous request to look up a value.</span>
+<span class="k">auto</span> <span class="n">id</span> <span class="o">=</span> <span class="n">proxy</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span>
+<span class="c1">// Get a file descriptor for event loops.</span>
+<span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">proxy</span><span class="p">.</span><span class="n">mailbox</span><span class="p">().</span><span class="n">fd</span><span class="p">();</span>
+<span class="c1">// Receive results or block until the result is available.</span>
+<span class="k">auto</span> <span class="n">response</span> <span class="o">=</span> <span class="n">proxy</span><span class="p">.</span><span class="n">receive</span><span class="p">();</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">id</span><span class="p">)</span>
+<span class="c1">// Check whether we got data or an error.</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">answer</span><span class="p">)</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">result</span><span class="p">.</span><span class="n">answer</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// may print 42</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">answer</span><span class="p">.</span><span class="n">status</span><span class="p">()</span> <span class="o">==</span> <span class="n">sc</span><span class="o">::</span><span class="n">no_such_key</span><span class="p">)</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;no such key: &#39;foo&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="k">else</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;failed to retrieve value at key &#39;foo&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -317,7 +348,7 @@ the retrieval operation is available.</p>
           
         </p>
         <p>
-            &copy; Copyright 2016, The Bro Project.<br/>
+            &copy; Copyright 2017, The Bro Project.<br/>
         </p>
       </footer>
 
