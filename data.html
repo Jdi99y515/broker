@@ -270,11 +270,21 @@ it maps <code class="docutils literal"><span class="pre">data</span></code> to <
 <p>The <code class="docutils literal"><span class="pre">data</span></code> abstraction offers two ways of interacting with the contained type
 instance:</p>
 <ol class="arabic">
-<li><p class="first">Querying a specific type <code class="docutils literal"><span class="pre">T</span></code>. The function <code class="docutils literal"><span class="pre">data::get&lt;T&gt;</span></code> returns either
-a <code class="docutils literal"><span class="pre">T*</span></code> if the contained type is <code class="docutils literal"><span class="pre">T</span></code> and <code class="docutils literal"><span class="pre">nullptr</span></code> otherwise:</p>
+<li><p class="first">Querying a specific type <code class="docutils literal"><span class="pre">T</span></code>. As C++17&#8217;s <code class="docutils literal"><span class="pre">std::variant</span></code>, the function
+<code class="docutils literal"><span class="pre">get_if&lt;T&gt;</span></code> returns either a <code class="docutils literal"><span class="pre">T*</span></code> if the contained type is <code class="docutils literal"><span class="pre">T</span></code> and
+<code class="docutils literal"><span class="pre">nullptr</span></code> otherwise:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span> auto x = data{...};
+ if (auto i = get_if&lt;integer&gt;(x))
+   f(*i); // safe use of x
+
+Alternatively, the function ``get&lt;T&gt;`` returns a reference of type ``T&amp;``
+or ``const T&amp;``, based on whether the given ``data`` argument is
+const-qualified:
+</pre></div>
+</div>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">{...};</span>
-<span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span><span class="p">())</span>
-  <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">);</span> <span class="c1">// safe use of x</span>
+<span class="k">auto</span><span class="o">&amp;</span> <span class="n">str</span> <span class="o">=</span> <span class="n">get</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="c1">// throws std::bad_cast on type clash</span>
+<span class="n">f</span><span class="p">(</span><span class="n">str</span><span class="p">);</span> <span class="c1">// safe use of x</span>
 </pre></div>
 </div>
 </li>
